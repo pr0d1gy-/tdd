@@ -1,3 +1,8 @@
 from django.test import TestCase
 
-# Create your tests here.
+
+class BaseCardTestCase(TestCase):
+
+    def setUp(self):
+        from card.models import Card
+        self.model = Card
