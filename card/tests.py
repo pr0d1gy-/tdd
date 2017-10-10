@@ -112,7 +112,8 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
         self.assertEqual(str(e), '`Number` must have 16 digits.')
 
         with self.assertRaises(self.service_exception) as cm:
-            self.service.create('11112222333344445', *self._get_expire_date(), 'Test Name')
+            self.service.create('11112222333344445', *self._get_expire_date(),
+                                'Test Name')
         e = cm.exception
         self.assertEqual(str(e), '`Number` must have 16 digits.')
 
@@ -158,7 +159,8 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
             self.service.create('1111222233334444', self.expire_date.month,
                                 (self.now.year - 2000) - 5, None)
         e = cm.exception
-        self.assertEqual(str(e), '`Month` should be in the range {}-99.'.format(
+        self.assertEqual(str(e), '`Month` should be in the '
+                                 'range {}-99.'.format(
             (self.now.year - 2000)
         ))
 
@@ -197,3 +199,7 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
 
         self.service.create('1111222233334444', *self._get_expire_date(),
                             'Test Name')
+
+
+class ServiceDeleteTestCase(BaseCardServiceTestCase):
+    pass
