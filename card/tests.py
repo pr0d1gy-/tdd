@@ -8,7 +8,7 @@ class BaseCardTestCase(TestCase):
         self.model = Card
 
 
-class CheckCardFields(BaseCardTestCase):
+class CheckCardFieldsTestCase(BaseCardTestCase):
 
     def test_card_number_field(self):
         self.assertTrue(hasattr(self.model, 'number'))
@@ -21,3 +21,11 @@ class CheckCardFields(BaseCardTestCase):
 
     def test_card_name_field(self):
         self.assertTrue(hasattr(self.model, 'name'))
+
+
+class BaseCardServiceTestCase(BaseCardTestCase):
+
+    def setUp(self):
+        super(BaseCardServiceTestCase, self).setUp()
+        from card.services import CardService
+        self.service = CardService
