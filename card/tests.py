@@ -139,9 +139,6 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
         e = cm.exception
         self.assertEqual(str(e), '`Month` should be in the range 1-12.')
 
-        self.service.create('1111222233334444', *self._get_expire_date(),
-                            'Test Name')
-
     def test_wrong_year(self):
         with self.assertRaises(self.service_exception) as cm:
             self.service.create('1111222233334444', self.expire_date.month,
@@ -164,18 +161,12 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
             (self.now.year - 2000)
         ))
 
-        self.service.create('1111222233334444', *self._get_expire_date(),
-                            'Test Name')
-
     def test_wrong_name(self):
         with self.assertRaises(self.service_exception) as cm:
             self.service.create('1111222233334444', *self._get_expire_date(),
                                 None)
         e = cm.exception
         self.assertEqual(str(e), '`Name` is required.')
-
-        self.service.create('1111222233334444', *self._get_expire_date(),
-                            'Test Name')
 
     def test_unique(self):
         self.service.create('1111222233334444', self.expire_date.month,
@@ -186,9 +177,6 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
         e = cm.exception
         self.assertEqual(str(e), 'Card with such number already exists.')
 
-        self.service.create('1111222233335555', self.expire_date.month,
-                            self.expire_date.year, 'Test Name')
-
     def test_validation_date(self):
         with self.assertRaises(self.service_exception) as cm:
             self.service.create('1111222233334444', self.now.month-1,
@@ -197,9 +185,23 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
         e = cm.exception
         self.assertEqual(str(e), 'Expire date must be greater than current.')
 
+    def test_create(self):
         self.service.create('1111222233334444', *self._get_expire_date(),
                             'Test Name')
+        self.assertEqual(1, self.model.objects.all().count())
 
 
 class ServiceDeleteTestCase(BaseCardServiceTestCase):
-    pass
+
+    def test_remove_not_exists(self):
+        with self.assertRaises(self.service_exception) as cm:
+            self.service.remove('1111222233334444')
+        e = cm.exception
+        self.assertEqual(str(e), 'Card with such name was not exists.')
+
+    def test_remove(self):
+        self.service.create('1111222233334444', *self._get_expire_date(),
+                            'Test Name')
+        self.assertEqual(1, self.model.objects.all().count())
+        self.service.remove('1111222233334444')
+        self.assertEqual(0, self.model.objects.all().count())
