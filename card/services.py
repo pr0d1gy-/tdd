@@ -5,9 +5,9 @@ class CardServiceException(Exception):
 class CardService(object):
 
     @staticmethod
-    def create():
+    def create(number, month, year, name):
         pass
 
     @staticmethod
-    def remove():
+    def remove(number):
         pass
