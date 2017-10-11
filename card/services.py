@@ -1,0 +1,2 @@
+class CardService(object):
+    pass
