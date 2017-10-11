@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.test import TestCase
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 
 
 class BaseTestCase(TestCase):
@@ -64,14 +64,15 @@ class CheckBaseModelFunctions(BaseCardTestCase):
         )
         card.save()
 
-        with self.assertRaises(IntegrityError):
-            card2 = self.model(
-                number='1111222233334444',
-                month='02',
-                year='20',
-                name='Test Name2'
-            )
-            card2.save()
+        with transaction.atomic():
+            with self.assertRaises(IntegrityError):
+                card2 = self.model(
+                    number='1111222233334444',
+                    month='02',
+                    year='20',
+                    name='Test Name2'
+                )
+                card2.save()
 
         card3 = self.model(
             number='1111222233335555',
