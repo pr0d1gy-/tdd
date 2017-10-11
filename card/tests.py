@@ -93,6 +93,17 @@ class BaseCardServiceTestCase(BaseCardTestCase):
         self.service_exception = CardServiceException
 
 
+class CheckCardServiceMethodsTestCase(BaseCardServiceTestCase):
+
+    def test_create_method_exist(self):
+        self.assertTrue(hasattr(self.service, 'create'))
+        self.assertTrue(callable(getattr(self.service, 'create')))
+
+    def test_remove_method_exist(self):
+        self.assertTrue(hasattr(self.service, 'remove'))
+        self.assertTrue(callable(getattr(self.service, 'remove')))
+
+
 class ServiceCreateTestCase(BaseCardServiceTestCase):
 
     def test_wrong_number(self):
