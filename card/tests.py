@@ -212,8 +212,14 @@ class ServiceDeleteTestCase(BaseCardServiceTestCase):
         self.assertEqual(str(e), 'Card with such name was not exists.')
 
     def test_remove(self):
-        self.service.create('1111222233334444', *self._get_expire_date(),
-                            'Test Name')
+        card = self.model(
+            number='1111222233334444',
+            month='01',
+            year='19',
+            name='Test Name'
+        )
+        card.save()
+
         self.assertEqual(1, self.model.objects.all().count())
         self.service.remove('1111222233334444')
         self.assertEqual(0, self.model.objects.all().count())
