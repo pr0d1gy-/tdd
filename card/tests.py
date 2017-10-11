@@ -129,9 +129,6 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
         e = cm.exception
         self.assertEqual(str(e), '`Number` must have 16 digits.')
 
-        self.service.create('1111222233334444', *self._get_expire_date(),
-                            'Test Name')
-
     def test_wrong_month(self):
         with self.assertRaises(self.service_exception) as cm:
             self.service.create('1111222233334444', None,
@@ -168,7 +165,7 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
             self.service.create('1111222233334444', self.expire_date.month,
                                 (self.now.year - 2000) - 5, None)
         e = cm.exception
-        self.assertEqual(str(e), '`Month` should be in the '
+        self.assertEqual(str(e), '`Year` should be in the '
                                  'range {}-99.'.format(
             (self.now.year - 2000)
         ))
@@ -192,7 +189,7 @@ class ServiceCreateTestCase(BaseCardServiceTestCase):
     def test_validation_date(self):
         with self.assertRaises(self.service_exception) as cm:
             self.service.create('1111222233334444', self.now.month-1,
-                                self.now.year, None)
+                                self.now.year, 'Test Name')
 
         e = cm.exception
         self.assertEqual(str(e), 'Expire date must be greater than current.')
