@@ -3,4 +3,11 @@ class CardServiceException(Exception):
 
 
 class CardService(object):
-    pass
+
+    @staticmethod
+    def create():
+        pass
+
+    @staticmethod
+    def remove():
+        pass
