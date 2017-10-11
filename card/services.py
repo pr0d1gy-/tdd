@@ -1,4 +1,3 @@
-import re
 from datetime import datetime
 
 from django.db import IntegrityError
@@ -11,8 +10,6 @@ class CardServiceException(Exception):
 
 
 class CardService(object):
-
-    REGEXP_CLEAN_NUMBER = re.compile(r'([^\d]+)+')
 
     @staticmethod
     def check_for_existing(number, is_raise_exception=True):
